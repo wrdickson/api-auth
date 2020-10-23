@@ -54,9 +54,10 @@ class Account {
           $account = new Account($result['id']);
           //  update the login
           $response['update_login'] = $account->update_login();
+          $response['update_activity'] = $account->update_activity();
           //  now reload 
           $account = new Account($result['id']);
-          $response['account'] = $account->to_array();
+          $response['account'] = $account->to_array_secure();
         } else {
           $response['pass'] = false;
           $response['accountId'] = -1;
@@ -95,6 +96,19 @@ class Account {
         $arr['last_activity'] = $this->last_activity;
         return $arr;
     }
+
+    //  this method does NOT return account email
+    public function to_array_secure(){
+      $arr = array();
+      $arr['id'] = $this->id;
+      $arr['username'] = $this->username;
+      $arr['permission'] = $this->permission;
+      $arr['roles'] = $this->roles;
+      $arr['registered'] = $this->registered;
+      $arr['last_login'] = $this->last_login;
+      $arr['last_activity'] = $this->last_activity;
+      return $arr;
+  }
 
     public function get_id() {
         return $this->id;
@@ -149,11 +163,11 @@ class Account {
     }
 
     private function update_activity(){
-        $pdo = Data_Connecter::get_connection();
-        $stmt = $pdo->prepare("UPDATE accounts SET last_activity = NOW() WHERE id = :i");
-        $stmt->bindParam(":i", $this->id,PDO::PARAM_STR);
-        $result = $stmt->execute();
-        return $result;
+      $pdo = Data_Connecter::get_connection();
+      $stmt = $pdo->prepare("UPDATE accounts SET last_activity = NOW() WHERE id = :i");
+      $stmt->bindParam(":i", $this->id,PDO::PARAM_STR);
+      $result = $stmt->execute();
+      return $result;
     }
 
     private function update_login(){

@@ -15,7 +15,7 @@ Class Validate {
     if ($gump->errors()) {
         return array( 'is_valid' => false, 'errors' => $gump->get_errors_array());
     } else {
-        return array( 'is_valid' => true, 'errors' => null, 'valid_data' => $valid_data);
+        return array( 'is_valid' => true, 'errors' => null);
     }
   }
   

@@ -5,12 +5,14 @@ use \Firebase\JWT\JWT;
 Class Jwt_Util {
 
   public static function generate($accountId) {
+    $account = new Account($accountId);
     $payload = [
       'iat' => date("Y-m-d H:m:s", time()),
       'iss' => 'localhost',
       'exp' => time() + 86400,
       'exp_f' => date("Y-m-d H:m:s", time() + 86400),
-      'accountId' => $accountId
+      'accountId' => $accountId,
+      'account' => $account->to_array()
     ];
     $token = JWT::encode($payload, JWT_KEY);
     return $token;
