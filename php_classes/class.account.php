@@ -50,7 +50,7 @@ class Account {
       if(is_array($result)) {
         if(password_verify($password, $result['password']) == true){
           $response['pass'] = true;
-          $response['accountId'] = $result['id'];
+          $response['account_id'] = $result['id'];
           $account = new Account($result['id']);
           //  update the login
           $response['update_login'] = $account->update_login();
@@ -60,11 +60,11 @@ class Account {
           $response['account'] = $account->to_array_secure();
         } else {
           $response['pass'] = false;
-          $response['accountId'] = -1;
+          $response['account_id'] = -1;
         }
       } else {
         $response['pass'] = false;
-        $response['accountId'] = -1;
+        $response['account_id'] = -1;
       }
       return $response;
     }
@@ -104,9 +104,6 @@ class Account {
       $arr['username'] = $this->username;
       $arr['permission'] = $this->permission;
       $arr['roles'] = $this->roles;
-      $arr['registered'] = $this->registered;
-      $arr['last_login'] = $this->last_login;
-      $arr['last_activity'] = $this->last_activity;
       return $arr;
   }
 

@@ -10,16 +10,26 @@ Class Jwt_Util {
       'iat' => date("Y-m-d H:m:s", time()),
       'iss' => 'localhost',
       'exp' => time() + 86400,
+      //  'exp' => time(),
       'exp_f' => date("Y-m-d H:m:s", time() + 86400),
       'accountId' => $accountId,
-      'account' => $account->to_array()
+      'account' => $account->to_array_secure()
     ];
     $token = JWT::encode($payload, JWT_KEY);
     return $token;
   }
 
-  public static function validate($token) {
-
+  public static function validate_token($token) {
+    try{
+      $test = array();
+      $test['decoded']= JWT::decode($token, JWT_KEY, array('HS256'));
+      $test['token_error'] = null;
+    } catch (Exception $e){
+      $test = array();
+      $test['decoded'] = null;
+      $test['token_error'] = $e->getMessage();
+    }
+    return $test;
   }
 
   public static function validate_test($token) {
