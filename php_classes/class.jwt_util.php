@@ -1,6 +1,7 @@
 <?php
 
 use \Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 Class Jwt_Util {
 
@@ -22,7 +23,7 @@ Class Jwt_Util {
   public static function validate_token($token) {
     try{
       $test = array();
-      $test['decoded']= JWT::decode($token, JWT_KEY, array('HS256'));
+      $test['decoded']= JWT::decode($token, new Key($key, 'HS256'));
       $test['token_error'] = null;
     } catch (Exception $e){
       $test = array();
